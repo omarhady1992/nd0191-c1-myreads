@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import * as BooksAPI from "./BooksAPI";
 import ShelfList from "./components/ShelfList";
 import Book from "./components/Book";
+import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
@@ -84,16 +85,16 @@ function App() {
 
 
   return (
+    
     <div className="app">
-      {showSearchPage ? (
+      <Router>
+      <Routes>
+      <Route path = "/search">
         <div className="search-books">
           <div className="search-books-bar">
-            <a
-              className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
-            >
-              Close
-            </a>
+            <Link to="/">
+            <button className="close-search">Close</button>
+            </Link>
             <div className="search-books-input-wrapper">
               <input
                 type="text"
@@ -110,14 +111,18 @@ function App() {
             </ol>
           </div>
         </div>
-      ) : (
+        </Route>
+
+        <Route path = "/">
         <div> 
           <ShelfList books={books} changeShelf={changeShelf.bind(this)} />
-          <div className="open-search">
-            <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
-          </div>
+          <Link to="/search">
+          <button className="open-search">Add a book</button>
+          </Link>
         </div>
-      )}
+        </Route>
+    </Routes>
+    </Router>
     </div>
   );
 }
