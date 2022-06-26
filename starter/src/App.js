@@ -7,13 +7,20 @@ import Book from "./components/Book";
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [books, setBooks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [query, setQuery] = useState("");
 
+  
+
+
+  //Get Books from API
   useEffect(() => {
     BooksAPI.getAll().then(books => {
       setBooks(books);
     });
   }, []);
   
+  //Function to update the shelf category of the book
   const changeShelf = (book, whereto)=> {
     const editedBooks = books.map((b) => {
       if (b.id === book.id) {
