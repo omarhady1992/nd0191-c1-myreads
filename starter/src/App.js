@@ -53,6 +53,12 @@ function App() {
       return b;
     }
     );
+    if (mapOfIds.has(book.id)) {
+
+      book.shelf = whereto;
+      editedBooks.push(book);
+    }
+
     setBooks(editedBooks);
     BooksAPI.update(book, whereto);
     
