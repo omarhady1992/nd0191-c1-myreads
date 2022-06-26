@@ -6,8 +6,26 @@ import Book from "./components/Book";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
+  const [books, setBooks] = useState([]);
 
+  useEffect(() => {
+    BooksAPI.getAll().then(books => {
+      setBooks(books);
+    });
+  }, []);
   
+  const changeShelf = (book, whereto)=> {
+    const editedBooks = books.map((b) => {
+      if (b.id === book.id) {
+        b.shelf = whereto;
+      }
+      return b;
+    }
+    );
+    setBooks(editedBooks);
+    BooksAPI.update(book, whereto);
+    
+  }
 
   return (
     <div className="app">
