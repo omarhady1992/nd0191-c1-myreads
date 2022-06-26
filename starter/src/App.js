@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import * as BooksAPI from "./BooksAPI";
-import ShelfList from "./components/ShelfList";
+import ShelfList from "./components/BookShelves";
 import Book from "./components/Book";
 import {BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
 
