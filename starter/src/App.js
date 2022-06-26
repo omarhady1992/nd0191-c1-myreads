@@ -9,6 +9,9 @@ function App() {
   const [books, setBooks] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [query, setQuery] = useState("");
+  const [mapOfIds, setMapOfIds] = useState(new Map());
+  const [mergedBooks, setMergedBooks] = useState([]);
+
 
 
 
@@ -17,8 +20,29 @@ function App() {
   useEffect(() => {
     BooksAPI.getAll().then(books => {
       setBooks(books);
+      setMapOfIds(createMapofIds(books));
+    }
+    );
+    }, []);
+
+  //Create a map of book ids
+  const createMapofIds = (books) => {
+    const map = new Map();
+    books.map((book) => map.set(book.id, book));
+    return map;
+  }
+
+  useEffect(() => {
+    const combined = searchResults.map(book => {
+      if (mapOfIds.has(book.id)) {
+        return mapOfIds.get(book.id);
+      } else {
+        return book;
+      }
     });
-  }, []);
+    setMergedBooks(combined);
+  }, [searchResults, mapOfIds]);
+
   
   //Function to update the shelf category of the book
   const changeShelf = (book, whereto)=> {
@@ -73,7 +97,7 @@ function App() {
           </div>
           <div className="search-books-results">
           <ol className="books-grid"> 
-              {searchResults?.map((book) => (
+              {mergedBooks?.map((book) => (
                 <Book  book={book} changeShelf={changeShelf} />
               ))}
 
