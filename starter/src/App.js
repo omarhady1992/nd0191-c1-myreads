@@ -10,7 +10,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [query, setQuery] = useState("");
 
-  
+
 
 
   //Get Books from API
@@ -33,6 +33,25 @@ function App() {
     BooksAPI.update(book, whereto);
     
   }
+
+  //Function to search for books
+  useEffect(() => {
+    let isActive = true;
+    if (query) {
+      BooksAPI.search(query).then(results => {
+        if (results.error){ //if there is an error in the query, show empty results
+          setSearchResults([]);
+        }else{
+        if (isActive) { //if the search is still active, update the search results
+          setSearchResults(results);
+        }
+      }});
+    }
+    return () => {
+      isActive = false; //if the search is no longer active, set the search results to empty
+    }
+  }, [query]);
+
 
   return (
     <div className="app">
