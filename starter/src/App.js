@@ -72,7 +72,12 @@ function App() {
             </div>
           </div>
           <div className="search-books-results">
-            <ol className="books-grid"></ol>
+          <ol className="books-grid"> 
+              {searchResults?.map((book) => (
+                <Book  book={book} changeShelf={changeShelf} />
+              ))}
+
+            </ol>
           </div>
         </div>
       ) : (
